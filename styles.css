@@ -1,0 +1,1011 @@
+/* ---------- CUSTOM FONTS ---------- */
+@font-face {
+  font-family: "iCielBCCubano-Normal";
+  src: url("iCielBCCubano-Normal.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fz-DucThuyThuPhapFreeThuongmai";
+  src: url("Fz-DucThuyThuPhapFreeThuongmai.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+/* ---------- GLOBAL ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* rotate the Start button */
+.start-btn {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  width: 200px;
+  height: auto;
+  border: none;
+  display: block;
+
+  /* rotation animation */
+  animation: spin-start 3s linear infinite;
+}
+
+/* hover: slightly bigger and faster (optional) */
+.start-btn:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  animation-duration: 1.5s;
+}
+
+/* keyframes for rotation */
+@keyframes spin-start {
+  0%   { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+body {
+  min-height: 100vh;      /* page can grow vertically */
+  width: 100vw;
+  overflow-x: hidden;     /* prevent horizontal scrollbars */
+  background: rgb(140, 140, 140);
+  font-family: "iCielBCCubano-Normal", Arial, sans-serif;
+}
+
+/* ---------- SCENE 1: SCROLL ---------- */
+.scroll {
+  min-height: 100vh;            /* fill first screen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;      /* centre vertically */
+  width: 90vw;
+  max-width: 2560px;
+  margin: 0 auto;
+  transition: opacity 0.8s ease; /* fade scroll */
+}
+
+.scroll.fade-out {
+  opacity: 0;
+}
+
+/* top cane */
+.scroll-top {
+  width: 100%;
+  height: 8vh;
+  background: url("images/Cane.png") no-repeat center top;
+  background-size: 100% 100%;
+}
+
+/* masked middle */
+.scroll-window {
+  width: 100%;
+  overflow: hidden;
+  height: 0;                    /* start closed */
+  animation: reveal 2.5s ease-out forwards;
+}
+
+.scroll-middle {
+  position: relative;           /* for absolute button */
+  width: 100%;
+  height: 80vh;
+  background-image: url("images/Caption.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center -40px;
+}
+
+/* unroll animation */
+@keyframes reveal {
+  from { height: 0; }
+  to   { height: 80vh; }
+}
+
+/* bottom cane */
+.scroll-bottom {
+  width: 100%;
+  height: 8vh;
+  background: url("images/Cane.png") no-repeat center bottom;
+  background-size: 100% 100%;
+}
+
+/* start button image */
+.start-btn {
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  width: 130px;
+  height: auto;
+  border: none;
+  display: block;
+}
+
+.start-btn:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* ---------- SCENE 2 (full‑screen overlay) ---------- */
+.scene2 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+
+  color: #fff;
+  font-family: "iCielBCCubano-Normal", Arial, sans-serif;
+}
+
+/* background cross‑fade layers */
+.scene2::before,
+.scene2::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 0.8s ease;
+  z-index: -1;
+}
+
+.scene2::before {
+  background-image: url("images/Sakura3.png"); /* default */
+  opacity: 1;
+}
+
+.scene2::after {
+  background-image: url("images/Sakura2.png"); /* alternate */
+  opacity: 0;
+}
+
+.scene2.alt-bg::before { opacity: 0; }
+.scene2.alt-bg::after  { opacity: 1; }
+
+.scene2.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Scene 2 text */
+.scene2-content {
+  position: absolute;
+  top: 65%;
+  right: 10%;
+  max-width: 800px;
+  padding: 2rem;
+  color: black;
+  text-align: center;
+}
+
+.scene2-title {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.scene2-text {
+  font-size: 1.3rem;
+  line-height: 1.6;
+}
+
+.magic-word {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.magic-word:hover {
+  text-decoration: none;
+  color: #ffe6ff;
+}
+
+/* Next button in top‑right of Scene 2 */
+.next-btn {
+  position: absolute;
+  top: 2vh;
+  right: 3vw;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.next-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+/* ---------- WHITE FADE OVERLAY ---------- */
+.white-fade {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;          /* or rgba(255,255,255,0.8) */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  z-index: 1000;
+}
+
+.white-fade.active {
+  opacity: 1;
+}
+
+/* ---------- SCENE 3: full-screen overlay, fades in ---------- */
+.scene3 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+
+  background-image: url("images/Scene1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: black;
+  font-family: "iCielBCCubano-Normal", Arial, sans-serif;
+}
+
+.scene3.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scene3-content {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  position: absolute;
+  top: 10%;      /* move higher (smaller = higher). Try 35–45% */
+  left: 25%;     /* move a bit to the left (smaller = closer to edge) */
+
+  transform: translate(0, 0);
+  text-align: left;
+  padding: 2rem;
+}
+
+
+/* clickable trigger in scene 2 (optional) */
+.to-scene3 {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 2rem;
+}
+
+.to-scene3:hover {
+  text-decoration: none;
+  color: #ffe6ff;
+}
+
+/* ---------- SAKURA PETAL ANIMATION (SCENE 3) ---------- */
+
+.sakura-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;           /* petals don’t block clicks */
+  overflow: hidden;
+}
+
+/* base petal style */
+.petal {
+  position: absolute;
+  top: -10vh;                     /* start slightly above screen */
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.9;
+
+  animation-name: fall, sway, spin;
+  animation-timing-function: linear, ease-in-out, linear;
+  animation-iteration-count: infinite;
+}
+
+/* assign different images to petals (3 types) */
+.petal:nth-child(3n + 1) {
+  background-image: url("images/pedal1.png");
+}
+.petal:nth-child(3n + 2) {
+  background-image: url("images/pedal2.png");
+}
+.petal:nth-child(3n) {
+  background-image: url("images/pedal3.png");
+}
+
+/* vary position, speed, delay, and scale per petal */
+.petal:nth-child(1)  { left: 5%;  animation-duration: 10s, 4s, 6s;  animation-delay: -1s, 0s, -2s;  transform: scale(0.6); }
+.petal:nth-child(2)  { left: 15%; animation-duration: 12s, 5s, 7s;  animation-delay: -4s, -1s, -3s; transform: scale(0.8); }
+.petal:nth-child(3)  { left: 25%; animation-duration: 14s, 6s, 8s;  animation-delay: -2s, -2s, -5s; transform: scale(1.0); }
+.petal:nth-child(4)  { left: 35%; animation-duration: 11s, 4.5s, 6s; animation-delay: -3s, 0s, -1s;  transform: scale(0.7); }
+.petal:nth-child(5)  { left: 45%; animation-duration: 13s, 5.5s, 7s; animation-delay: -5s, -1s, -4s; transform: scale(1.2); }
+.petal:nth-child(6)  { left: 55%; animation-duration: 10s, 4s, 5s;  animation-delay: -2s, -2s, -3s; transform: scale(0.9); }
+.petal:nth-child(7)  { left: 65%; animation-duration: 12s, 6s, 7s;  animation-delay: -6s, -1s, -2s; transform: scale(1.1); }
+.petal:nth-child(8)  { left: 75%; animation-duration: 15s, 5s, 8s;  animation-delay: -3s, -2s, -5s; transform: scale(0.8); }
+.petal:nth-child(9)  { left: 85%; animation-duration: 11s, 4.5s, 6s; animation-delay: -1s, -1s, -1s; transform: scale(0.7); }
+.petal:nth-child(10) { left: 50%; animation-duration: 13s, 5.5s, 9s; animation-delay: -7s, -2s, -4s; transform: scale(1.3); }
+.petal:nth-child(11) { left: 8%;  animation-duration: 12s, 5s, 7s;  animation-delay: -2s, 0s, -3s;  transform: scale(0.9); }
+.petal:nth-child(12) { left: 18%; animation-duration: 14s, 6s, 8s;  animation-delay: -5s, -1s, -2s; transform: scale(1.1); }
+.petal:nth-child(13) { left: 28%; animation-duration: 10s, 4s, 6s;  animation-delay: -3s, -2s, -5s; transform: scale(0.7); }
+.petal:nth-child(14) { left: 38%; animation-duration: 13s, 5.5s, 7s; animation-delay: -6s, -1s, -3s; transform: scale(1.0); }
+.petal:nth-child(15) { left: 48%; animation-duration: 11s, 4.5s, 6s; animation-delay: -4s, -2s, -1s; transform: scale(0.8); }
+.petal:nth-child(16) { left: 58%; animation-duration: 12s, 5s, 7s;  animation-delay: -8s, -1s, -4s; transform: scale(1.2); }
+.petal:nth-child(17) { left: 68%; animation-duration: 15s, 6s, 9s;  animation-delay: -5s, 0s, -2s;  transform: scale(0.9); }
+.petal:nth-child(18) { left: 78%; animation-duration: 13s, 5.5s, 8s; animation-delay: -3s, -2s, -5s; transform: scale(1.1); }
+.petal:nth-child(19) { left: 88%; animation-duration: 10s, 4s, 5s;  animation-delay: -1s, -1s, -3s; transform: scale(0.6); }
+.petal:nth-child(20) { left: 30%; animation-duration: 14s, 6s, 9s;  animation-delay: -7s, -2s, -4s; transform: scale(1.3); }
+
+/* Falling straight down */
+@keyframes fall {
+  0% {
+    top: -10vh;
+  }
+  100% {
+    top: 110vh; /* beyond bottom */
+  }
+}
+
+/* Gentle side-to-side sway */
+@keyframes sway {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(20px); }
+  100% { transform: translateX(-20px); }
+}
+
+/* Spin/tumble */
+@keyframes spin {
+  0%   { rotate: 0deg; }
+  100% { rotate: 360deg; }
+}
+
+/* Back button on Scene 4 */
+.back-btn {
+  position: absolute;
+  top: 2vh;
+  left: 3vw;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* ---------- SCENE 4: full-screen overlay, fades + cross-fade bg ---------- */
+.scene4 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+
+  color: black;
+  font-family: "iCielBCCubano-Normal", Arial, sans-serif;
+}
+
+/* two background layers we can cross-fade */
+.scene4::before,
+.scene4::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 0.4s ease;   /* smooth change */
+  z-index: -1;
+}
+
+/* default image */
+.scene4::before {
+  background-image: url("images/Clap2.png");
+  opacity: 1;
+}
+
+/* alternate image */
+.scene4::after {
+  background-image: url("images/Clap1.png");
+  opacity: 0;
+}
+
+/* when alt-bg is active, fade to the second image */
+.scene4.alt-bg::before {
+  opacity: 0;
+}
+.scene4.alt-bg::after {
+  opacity: 1;
+}
+
+.scene4.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* text block (centre-ish) */
+.scene4-content {
+  position: absolute;
+  top: 22%;
+  right: 30%;
+  transform: translate(0, 0);
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* you can keep your existing size settings */
+.scene4-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* clickable last words */
+.scene4-magic {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.scene4-magic:hover {
+  text-decoration: none;
+  color: white;
+}
+
+/* Scene 5: normal background + text (from previous step) */
+.scene5 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
+  background-image: url("images/giaydo2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: black;
+  font-family: "Fz-DucThuyThuPhapFreeThuongmai", Arial, sans-serif;
+
+  cursor: none; /* hide the system cursor in scene 5 */
+}
+
+.scene5.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scene5-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.scene5-title {
+  font-size: 7rem;
+  margin-bottom: 3rem;
+}
+
+.scene5-text {
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+/* follower image that sticks to the cursor */
+.pen-follower {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background-image: url("images/Pen.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  transform: translate(-30%, -90%);
+  z-index: 2000;
+  display: none;
+}
+/* base style for the special words */
+.highlight-word {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+  cursor: none;                 /* keep system cursor hidden in scene 5 */
+  color: black;                 /* normal colour */
+}
+
+/* make them bigger + gold on hover */
+.highlight-word:hover {
+  transform: scale(1.3);
+  color: #ffd700;               /* gold */
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.scene5-overlay-img {
+  position: fixed;
+  inset: 0;
+  background-image: url("images/Dragon.png"); /* your PNG */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 1;  /* above base bg, below .scene5-content */
+}
+
+.scene5-overlay-img.visible {
+  opacity: 1;
+}
+
+/* optional: reuse .next-btn style, position for Scene 5 */
+.scene5-next {
+  top: 2vh;
+  right: 3vw;
+}
+
+/* ---------- SCENE 6: full-screen overlay, fades in ---------- */
+.scene6 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
+  /* default background */
+  background-image: url("images/scene6-1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: black;
+  font-family: "iCielBCCubano-Normal", Arial, sans-serif;
+}
+
+.scene6.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* two overlay layers for smooth cross-fade */
+.scene6::before,
+.scene6::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0; /* below text, above base bg */
+}
+
+/* image for 'vắng' */
+.scene6::before {
+  background-image: url("images/scene6-2.png");
+}
+
+/* image for 'Người thuê viết' */
+.scene6::after {
+  background-image: url("images/scene6-3.png");
+}
+
+/* when vang-bg is active, fade in ::before */
+.scene6.vang-bg::before {
+  opacity: 1;
+}
+
+/* when nguoi-bg is active, fade in ::after */
+.scene6.nguoi-bg::after {
+  opacity: 1;
+}
+
+.scene6-content {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+  z-index: 1;  /* keep text above overlays */
+}
+
+.scene6-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.scene6-text {
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+/* clickable words */
+.click-word {
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.click-word:hover {
+  color: white;
+  transform: scale(1.1);
+}
+
+/* optional: position Next button in Scene 6 */
+.scene6-next {
+  top: 2vh;
+  right: 3vw;
+}
+
+/* ---------- SCENE 7: full-screen overlay, fades in ---------- */
+.scene7 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  /* base background */
+  background-image: url("images/Sit2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: black;
+  font-family: "iCielBCCubano-Normal", Arial, sans-serif;
+}
+
+.scene7.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* smooth overlay for bg change when Lá vàng is active */
+.scene7::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("images/Sit1.png");  /* image after click */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0; /* above base bg, below petals & text */
+}
+
+/* when lavang-bg is active, fade in overlay image */
+.scene7.lavang-bg::before {
+  opacity: 1;
+}
+
+.scene7-content {
+  position: absolute;
+  top: 25%;
+  left: 36%;
+  transform: translate(-50%, -50%);
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+  z-index: 2; /* above petals & overlay */
+}
+
+.scene7-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.scene7-text {
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+/* ---------- SAKURA PETAL ANIMATION (SCENE 7) ---------- */
+.sakura-layer-7 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1; /* above bg overlay, below text */
+}
+
+.petal-7 {
+  position: absolute;
+  top: -10vh;              /* start slightly above screen */
+  width: 90px;
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.9;
+  animation-name: fall7, sway7, spin7;
+  animation-timing-function: linear, ease-in-out, linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;   /* paused by default */
+}
+
+/* when scene7 has .sakura-active, petals run */
+.scene7.sakura-active .petal-7 {
+  animation-play-state: running;
+}
+
+/* petal images */
+.petal-7:nth-child(3n + 1),
+.petal-7:nth-child(3n + 2),
+.petal-7:nth-child(3n) {
+  background-image: url("images/Untitled-3.png");
+}
+
+/* (keep your nth-child(1)–(20) duration/position rules and fall7/sway7/spin7 keyframes below this) */
+/* vary position, speed, delay, scale */
+.petal-7:nth-child(1)  { left: 5%;  animation-duration: 10s, 4s, 6s;  animation-delay: -1s, 0s, -2s;  transform: scale(0.6); }
+.petal-7:nth-child(2)  { left: 15%; animation-duration: 12s, 5s, 7s;  animation-delay: -4s, -1s, -3s; transform: scale(0.8); }
+.petal-7:nth-child(3)  { left: 25%; animation-duration: 14s, 6s, 8s;  animation-delay: -2s, -2s, -5s; transform: scale(1.0); }
+.petal-7:nth-child(4)  { left: 35%; animation-duration: 11s, 4.5s, 6s; animation-delay: -3s, 0s, -1s;  transform: scale(0.7); }
+.petal-7:nth-child(5)  { left: 45%; animation-duration: 13s, 5.5s, 7s; animation-delay: -5s, -1s, -4s; transform: scale(1.2); }
+.petal-7:nth-child(6)  { left: 55%; animation-duration: 10s, 4s, 5s;  animation-delay: -2s, -2s, -3s; transform: scale(0.9); }
+.petal-7:nth-child(7)  { left: 65%; animation-duration: 12s, 6s, 7s;  animation-delay: -6s, -1s, -2s; transform: scale(1.1); }
+.petal-7:nth-child(8)  { left: 75%; animation-duration: 15s, 5s, 8s;  animation-delay: -3s, -2s, -5s; transform: scale(0.8); }
+.petal-7:nth-child(9)  { left: 85%; animation-duration: 11s, 4.5s, 6s; animation-delay: -1s, -1s, -1s; transform: scale(0.7); }
+.petal-7:nth-child(10) { left: 50%; animation-duration: 13s, 5.5s, 9s; animation-delay: -7s, -2s, -4s; transform: scale(1.3); }
+.petal-7:nth-child(11) { left: 8%;  animation-duration: 12s, 5s, 7s;  animation-delay: -2s, 0s, -3s;  transform: scale(0.9); }
+.petal-7:nth-child(12) { left: 18%; animation-duration: 14s, 6s, 8s;  animation-delay: -5s, -1s, -2s; transform: scale(1.1); }
+.petal-7:nth-child(13) { left: 28%; animation-duration: 10s, 4s, 6s;  animation-delay: -3s, -2s, -5s; transform: scale(0.7); }
+.petal-7:nth-child(14) { left: 38%; animation-duration: 13s, 5.5s, 7s; animation-delay: -6s, -1s, -3s; transform: scale(1.0); }
+.petal-7:nth-child(15) { left: 48%; animation-duration: 11s, 4.5s, 6s; animation-delay: -4s, -2s, -1s; transform: scale(0.8); }
+.petal-7:nth-child(16) { left: 58%; animation-duration: 12s, 5s, 7s;  animation-delay: -8s, -1s, -4s; transform: scale(1.2); }
+.petal-7:nth-child(17) { left: 68%; animation-duration: 15s, 6s, 9s;  animation-delay: -5s, 0s, -2s;  transform: scale(0.9); }
+.petal-7:nth-child(18) { left: 78%; animation-duration: 13s, 5.5s, 8s; animation-delay: -3s, -2s, -5s; transform: scale(1.1); }
+.petal-7:nth-child(19) { left: 88%; animation-duration: 10s, 4s, 5s;  animation-delay: -1s, -1s, -3s; transform: scale(0.6); }
+.petal-7:nth-child(20) { left: 30%; animation-duration: 14s, 6s, 9s;  animation-delay: -7s, -2s, -4s; transform: scale(1.3); }
+
+/* Falling straight down for Scene 7 */
+@keyframes fall7 {
+  0%   { top: -10vh; }
+  100% { top: 110vh; }
+}
+/* Gentle side-to-side sway */
+@keyframes sway7 {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(20px); }
+  100% { transform: translateX(-20px); }
+}
+/* Spin/tumble */
+@keyframes spin7 {
+  0%   { rotate: 0deg; }
+  100% { rotate: 360deg; }
+}
+
+/* position Next button in Scene 7 */
+.scene7-next {
+  top: 2vh;
+  right: 3vw;
+}
+
+/* ---------- SCENE 8: full-screen overlay, fades in ---------- */
+.scene8 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
+  background-image: url("images/Scene5.png"); /* change to your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: black;
+  font-family: "iCielBCCubano-Normal", Arial, sans-serif;
+}
+
+.scene8.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scene8-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.scene8-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.scene8-text {
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+/* ---------- SAKURA PETAL ANIMATION (SCENE 8) ---------- */
+.sakura-layer-8 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0; /* behind text, above background */
+}
+
+.petal-8 {
+  position: absolute;
+  top: -10vh;              /* start slightly above screen */
+  width: 90px;
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.9;
+  animation-name: fall8, sway8, spin8;
+  animation-timing-function: linear, ease-in-out, linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;   /* paused by default */
+}
+
+/* when .no-petal-active is on scene8, petals run */
+.scene8.no-petal-active .petal-8 {
+  animation-play-state: running;
+}
+
+/* use your 3 petal images */
+.petal-8:nth-child(3n + 1) {
+  background-image: url("images/pedal1.png"); /* change to your first petal */
+}
+.petal-8:nth-child(3n + 2) {
+  background-image: url("images/pedal2.png"); /* second petal */
+}
+.petal-8:nth-child(3n) {
+  background-image: url("images/pedal3.png"); /* third petal */
+}
+
+/* vary position, speed, delay, scale (copy pattern from Scene 7) */
+.petal-8:nth-child(1)  { left: 5%;  animation-duration: 10s, 4s, 6s;  animation-delay: -1s, 0s, -2s;  transform: scale(0.6); }
+.petal-8:nth-child(2)  { left: 15%; animation-duration: 12s, 5s, 7s;  animation-delay: -4s, -1s, -3s; transform: scale(0.8); }
+.petal-8:nth-child(3)  { left: 25%; animation-duration: 14s, 6s, 8s;  animation-delay: -2s, -2s, -5s; transform: scale(1.0); }
+.petal-8:nth-child(4)  { left: 35%; animation-duration: 11s, 4.5s, 6s; animation-delay: -3s, 0s, -1s;  transform: scale(0.7); }
+.petal-8:nth-child(5)  { left: 45%; animation-duration: 13s, 5.5s, 7s; animation-delay: -5s, -1s, -4s; transform: scale(1.2); }
+.petal-8:nth-child(6)  { left: 55%; animation-duration: 10s, 4s, 5s;  animation-delay: -2s, -2s, -3s; transform: scale(0.9); }
+.petal-8:nth-child(7)  { left: 65%; animation-duration: 12s, 6s, 7s;  animation-delay: -6s, -1s, -2s; transform: scale(1.1); }
+.petal-8:nth-child(8)  { left: 75%; animation-duration: 15s, 5s, 8s;  animation-delay: -3s, -2s, -5s; transform: scale(0.8); }
+.petal-8:nth-child(9)  { left: 85%; animation-duration: 11s, 4.5s, 6s; animation-delay: -1s, -1s, -1s; transform: scale(0.7); }
+.petal-8:nth-child(10) { left: 50%; animation-duration: 13s, 5.5s, 9s; animation-delay: -7s, -2s, -4s; transform: scale(1.3); }
+.petal-8:nth-child(11) { left: 8%;  animation-duration: 12s, 5s, 7s;  animation-delay: -2s, 0s, -3s;  transform: scale(0.9); }
+.petal-8:nth-child(12) { left: 18%; animation-duration: 14s, 6s, 8s;  animation-delay: -5s, -1s, -2s; transform: scale(1.1); }
+.petal-8:nth-child(13) { left: 28%; animation-duration: 10s, 4s, 6s;  animation-delay: -3s, -2s, -5s; transform: scale(0.7); }
+.petal-8:nth-child(14) { left: 38%; animation-duration: 13s, 5.5s, 7s; animation-delay: -6s, -1s, -3s; transform: scale(1.0); }
+.petal-8:nth-child(15) { left: 48%; animation-duration: 11s, 4.5s, 6s; animation-delay: -4s, -2s, -1s; transform: scale(0.8); }
+.petal-8:nth-child(16) { left: 58%; animation-duration: 12s, 5s, 7s;  animation-delay: -8s, -1s, -4s; transform: scale(1.2); }
+.petal-8:nth-child(17) { left: 68%; animation-duration: 15s, 6s, 9s;  animation-delay: -5s, 0s, -2s;  transform: scale(0.9); }
+.petal-8:nth-child(18) { left: 78%; animation-duration: 13s, 5.5s, 8s; animation-delay: -3s, -2s, -5s; transform: scale(1.1); }
+.petal-8:nth-child(19) { left: 88%; animation-duration: 10s, 4s, 5s;  animation-delay: -1s, -1s, -3s; transform: scale(0.6); }
+.petal-8:nth-child(20) { left: 30%; animation-duration: 14s, 6s, 9s;  animation-delay: -7s, -2s, -4s; transform: scale(1.3); }
+
+/* falling animation for Scene 8 */
+@keyframes fall8 {
+  0%   { top: -10vh; }
+  100% { top: 110vh; }
+}
+
+/* side-to-side sway */
+@keyframes sway8 {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(20px); }
+  100% { transform: translateX(-20px); }
+}
+
+/* spin/tumble */
+@keyframes spin8 {
+  0%   { rotate: 0deg; }
+  100% { rotate: 360deg; }
+}
+
+/* optional: position Next button in Scene 8 */
+.scene8-next {
+  top: 2vh;
+  right: 3vw;
+}
+
+/* ---------- SCENE 9: full-screen overlay, fades in ---------- */
+.scene9 {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
+  background-image: url("images/giaydo.png"); /* change to your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: black;
+  font-family: "Fz-DucThuyThuPhapFreeThuongmai", Arial, sans-serif;
+}
+
+.scene9.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scene9-content {
+  position: absolute;
+  top: 50%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+  max-width: 800px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.scene9-title {
+  font-size: 15rem;
+  margin-bottom: 1rem;
+}
+
+.scene9-text {
+  font-size: 5rem;
+  line-height: 1.6;
+}
+
+.click-word {
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+  color: black; /* normal colour */
+}
+
+.click-word:hover {
+  color: #ffd700; /* gold */
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
